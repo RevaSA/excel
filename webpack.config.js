@@ -43,11 +43,9 @@ module.exports = {
                 collapseWhitespace: isProd,
             },
         }),
-        new CopyPlugin({
-            patterns: [
-                { from: `${PATHS.src}/favicon.ico`, to: PATHS.dist },
-            ],
-        }),
+        new CopyPlugin([
+            { from: `${PATHS.src}/favicon.ico`, to: PATHS.dist },
+        ]),
         new MiniCssExtractPlugin({
             filename: filename('css'),
         }),
@@ -71,7 +69,7 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                use: {
+                loader: {
                     loader: 'babel-loader',
                     options: {
                         presets: ['@babel/preset-env'],
