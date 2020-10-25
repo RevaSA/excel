@@ -7,16 +7,17 @@
 @import 'table';
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
-  font-size: 12px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
 }
 
 .excel {
-  position: relative;
+    position: relative;
+    color: #888;
 }
