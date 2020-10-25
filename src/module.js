@@ -1,10 +1,5 @@
-class Rectangle {
-    constructor(height, width) {
-        this.height = height;
-        this.width = width;
-    }
+async function start() {
+    return await Promise.resolve('Async working! awdaw d')
 }
 
-const rect = new Rectangle(25, 50)
-
-console.log(rect)
+start().then(console.log)

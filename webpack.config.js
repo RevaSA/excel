@@ -4,33 +4,52 @@ const HTMLWebpackPlugin = require('html-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
+const PATHS = {
+    src: path.resolve(__dirname, 'src'),
+    dist: path.resolve(__dirname, 'dist'),
+}
+
+const isProd = process.env.NODE_ENV === 'production'
+const isDev = !isProd
+
+const filename = ext => isDev ? `bundle.${ext}` : `bundle.[contenthash].${ext}`
+
 module.exports = {
-    context: path.resolve(__dirname, 'src'),
+    context: PATHS.src,
     mode: 'development',
-    entry: './index.js',
+    entry: ['@babel/polyfill', './index.js'],
     output: {
-        filename: 'bundle.[hash].js',
-        path: path.resolve(__dirname, 'dist'),
+        filename: filename('js'),
+        path: PATHS.dist,
     },
     resolve: {
         extensions: ['.js'],
         alias: {
-            '@': path.resolve(__dirname, 'src'),
-            '@core': path.resolve(__dirname, 'src/core'),
+            '@': PATHS.src,
+            '@core': `${PATHS.src}/core`,
         },
+    },
+    devtool: isDev ? 'source-map' : false,
+    devServer: {
+        port: 3000,
+        hot: true,
     },
     plugins: [
         new CleanWebpackPlugin(),
         new HTMLWebpackPlugin({
             template: 'index.html',
+            minify: {
+                removeComments: isProd,
+                collapseWhitespace: isProd,
+            },
         }),
         new CopyPlugin({
             patterns: [
-                { from: path.resolve(__dirname, 'src/favicon.ico'), to: path.resolve(__dirname, 'dist') },
+                { from: `${PATHS.src}/favicon.ico`, to: PATHS.dist },
             ],
         }),
         new MiniCssExtractPlugin({
-            filename: 'bundle.[hash].css',
+            filename: filename('css'),
         }),
     ],
     module: {
@@ -38,7 +57,13 @@ module.exports = {
             {
                 test: /\.s[ac]ss$/i,
                 use: [
-                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            hmr: isDev,
+                            reloadAll: true,
+                        },
+                    },
                     'css-loader',
                     'sass-loader',
                 ],
