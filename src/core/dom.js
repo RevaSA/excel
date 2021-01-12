@@ -79,16 +79,21 @@ class Dom {
             })
     }
 
+    getStyles(styles = []) {
+        return styles.reduce((res, s) => {
+            res[s] = this.$el.style[s]
+            return res
+        }, {})
+    }
+
     id(parse) {
         if (parse) {
             const parsed = this.id().split(':')
-
             return {
                 row: +parsed[0],
                 col: +parsed[1],
             }
         }
-
         return this.data.id
     }
 
