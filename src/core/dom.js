@@ -13,6 +13,11 @@ class Dom {
         return this.$el.outerHTML.trim()
     }
 
+    clear() {
+        this.html('')
+        return this
+    }
+
     text(text) {
         if (typeof text !== 'undefined') {
             this.$el.textContent = text
@@ -24,17 +29,16 @@ class Dom {
         return this.$el.textContent.trim()
     }
 
-    clear() {
-        this.html('')
-        return this
-    }
-
     on(eventType, callback) {
         this.$el.addEventListener(eventType, callback)
     }
 
     off(eventType, callback) {
         this.$el.removeEventListener(eventType, callback)
+    }
+
+    find(selector) {
+        return $(this.$el.querySelector(selector))
     }
 
     append(node) {
@@ -61,10 +65,6 @@ class Dom {
 
     getCoords() {
         return this.$el.getBoundingClientRect()
-    }
-
-    find(selector) {
-        return $(this.$el.querySelector(selector))
     }
 
     findAll(selector) {
