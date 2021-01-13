@@ -6,6 +6,7 @@
         "node": true
     },
     "rules": {
+        "max-len": ["error", { "code": 120 }],
         "indent": ["error", 4, { "SwitchCase": 1 }],
         "semi": "off",
         "arrow-parens": "off",
